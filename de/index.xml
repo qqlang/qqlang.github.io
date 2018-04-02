@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Quick Query Language</title>
+    <link>/de/</link>
+    <description>Recent content on Quick Query Language</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/de/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/de/introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/introduction/</guid>
+      <description>Einleitung Was ist QQLang? QQLang steht für Quick Query Language - abgekürzt auch QQL. Sie ist die Antwort auf moderne &amp;laquo;Echtzeit&amp;raquo;-Programme in der Webentwicklung und ein Ersatz für CRUD über Rest-Apis. Inspiriert wurde QQL von GraphQL.
+Das Ziel von QQL ist die Entwicklungszeit gegenüber REST stark zu verkürzen und den Datenbank-Teil des Backendbereichs einer Fullstack-Programmierung zu automatisieren.
+Qql lässt sich folgend einteilen.
+ QqlSchema - Automatische Erstellung der Datenbanken</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-schema/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-schema/</guid>
+      <description>QqlSchema TODO: Write QqlSchema Docs in German</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-api/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-api/</guid>
+      <description>QqlApi TODO: Write QqlApi docs in German</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-query/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-query/</guid>
+      <description>QqlQuery TODO: Write QqlQuery Docs in German here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-secure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-secure/</guid>
+      <description>QqlSecure TODO: Write QqlSecure Docs in German here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-tools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-tools/</guid>
+      <description>QqlTools TODO: Write QqlTools Docs in German here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/de/qql-docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/de/qql-docs/</guid>
+      <description>QqlDocs TODO: Write QqlDocs Docs in German here</description>
+    </item>
+    
+  </channel>
+</rss>

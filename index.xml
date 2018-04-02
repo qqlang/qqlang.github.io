@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Quick Query Language</title>
+    <link>/</link>
+    <description>Recent content on Quick Query Language</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/introduction/</guid>
+      <description>Introduction Todo: Write Introduction here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-schema/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-schema/</guid>
+      <description>QqlSchema TODO: Write QqlSchema Docs</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-api/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-api/</guid>
+      <description>QqlApi TODO: Write QqlApi Docs here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-query/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-query/</guid>
+      <description>QqlQuery TODO: Write QqlQuery Docs here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-secure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-secure/</guid>
+      <description>QqlSecure TODO: Write QqlSecure Docs here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-tools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-tools/</guid>
+      <description>QqlTools TODO: Write QqlTools Docs here</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/qql-docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/qql-docs/</guid>
+      <description>QqlDocs TODO: Write QqlDocs Docs here</description>
+    </item>
+    
+  </channel>
+</rss>

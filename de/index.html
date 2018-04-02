@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="generator" content="Hugo 0.37.1" />
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Quick Query Language</title>
+    <link href='/slate/stylesheets/monokai.css' rel="stylesheet" media="screen" />
+<link href='/slate/stylesheets/screen.css' rel="stylesheet" media="screen" />
+<link href='/slate/stylesheets/print.css' rel="stylesheet" media="print" />
+
+    
+<script src='/slate/javascripts/all.js'></script>
+
+    
+</head>
+<body class="index" data-languages="[ &#34;typescript&#34; ]">
+    <a href="#" id="nav-button">
+        <span>
+        NAV
+        <img src='/slate/images/navbar.png'/>
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        
+         <img src='/images/logo.png' />
+        
+        <div class="lang-selector">
+            
+            <a href="#" data-language-name="typescript">Typescript</a>
+            
+        </div>
+         
+        
+        <div class="search">
+            <input type="text" class="search" id="input-search" placeholder='Suchen'>
+        </div>
+        <ul class="search-results"></ul>
+        
+        <div id="toc">
+        </div>
+        
+        <div class="toc-footer">
+            <h3 class="translations-title">Andere Sprache</h3> 
+            
+<ul>
+    
+        <li><a href="/">English</a></li>
+    
+</ul>
+
+
+        </div>
+         
+        
+        <ul class="toc-footer">
+            
+            <li><a href='#'>Registrer deg for ein utviklarnøkkel</a></li>
+            
+            <li>Dokumentasjonen er driven av <a href="https://github.com/bep/docuapi" target="_blank">DocuAPI</a></li>
+            
+            <li>Hugo Theme av <a href="https://github.com/bep" target="_blank">bep</a></li>
+            
+        </ul>
+        
+        
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            
+    
+        
+
+<h1 id="einleitung">Einleitung</h1>
+
+<h2 id="was-ist-qqlang">Was ist QQLang?</h2>
+
+<p>QQLang steht für Quick Query Language - abgekürzt auch QQL. Sie ist die Antwort auf moderne &laquo;Echtzeit&raquo;-Programme in der Webentwicklung und ein Ersatz für <a href="https://de.wikipedia.org/wiki/CRUD#CRUD-Sprachkonstrukte" target="_blank">CRUD</a> über Rest-Apis. Inspiriert wurde QQL von <a href="http://graphql.org/learn/" target="_blank">GraphQL</a>.</p>
+
+<p>Das Ziel von QQL ist die Entwicklungszeit gegenüber REST stark zu verkürzen und den Datenbank-Teil des Backendbereichs einer Fullstack-Programmierung zu automatisieren.</p>
+
+<p>Qql lässt sich folgend einteilen.</p>
+
+<ul>
+<li>QqlSchema - Automatische Erstellung der Datenbanken<br /></li>
+<li>QqlApi - CRUD-Operationen</li>
+<li>QqlQuery - Abfragesprache</li>
+<li>QqlSecure - Access Control List für Qql</li>
+<li>QqlTools - Entwicklertools wie Editorplugins, Kommandozeilenwerkzeuge, usw.</li>
+<li>QqlDocs - Dokumentation über Qql</li>
+</ul>
+
+<h2 id="qqlschema">QqlSchema</h2>
+
+<p>Die Entitäten/Tabellen der Datenbank müssen nicht selbst erstellt werden. Lediglich das Schema wird einmal angegeben und Qql wird automatisch alle erforderlichen Datenfelder und Relationen für die Systemkombination anlegen. Das Schema ist dann gleichzeitig die Vorlage für den Object Relation Mapper. Inspiration lieferte <a href="http://typeorm.io" target="_blank">Typeorm</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Entity</span><span class="p">,</span> <span class="nx">Column</span><span class="p">,</span> <span class="nx">PrimaryColumn</span><span class="p">,</span> 
+        <span class="nx">OneToMany</span><span class="p">,</span> <span class="nx">Schema</span><span class="p">,</span> <span class="nx">uuidv4</span> <span class="p">}</span> 
+    <span class="nx">from</span> <span class="s2">&#34;qqlang/schema&#34;</span><span class="p">;</span>
+
+<span class="kd">@Entity</span><span class="p">()</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">Product</span> <span class="p">{</span>
+    <span class="kd">@PrimaryColumn</span><span class="p">(</span><span class="nx">uuidv4</span><span class="p">)</span>
+    <span class="nx">id</span>: <span class="kt">string</span><span class="p">;</span>
+
+    <span class="kd">@Column</span><span class="p">()</span>
+    <span class="nx">productNumber</span>: <span class="kt">string</span><span class="p">;</span>
+
+    <span class="c1">//one product have many titles (in many languages)
+</span><span class="c1"></span>    <span class="kd">@OneToMany</span><span class="p">()</span>
+    <span class="nx">titles</span>: <span class="kt">Schema.ProductTitle</span><span class="p">[];</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="qqlapi">QqlApi</h2>
+
+<p>Für die verschiedene Platformen gibt es eine <strong>API</strong> nach CRUD, um die Abfrage-Sprache (QqlQuery) auch nutzen zu können. Die API sorgt dafür, dass der Frontendentwickler ohne Backend-Arbeit die Daten so aus der Datenbank bekommt, wie er sie braucht. Der Datenaustausch erfolgt wie bei einem Object-Relation-Mapper (ORM) objektbasiert.</p>
+
+<p>Die Api kennt drei öffentliche Funktionen:</p>
+
+<ul>
+<li>save (CREATE oder UPDATE)</li>
+<li>remove (DELETE)</li>
+<li>query (READ)</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="c1">//save
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">product</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">id</span>: <span class="kt">123</span><span class="p">,</span>
+    <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Peanuts&#39;</span><span class="p">,</span>
+    <span class="nx">categories</span><span class="o">:</span> <span class="p">[</span>
+        <span class="c1">//eine alte bekannte Kategorie
+</span><span class="c1"></span>        <span class="p">{</span>
+            <span class="nx">id</span>: <span class="kt">1</span>
+        <span class="p">},</span>
+        <span class="c1">//eine neue Kategorie, wird automatisch erstellt
+</span><span class="c1"></span>        <span class="p">{</span> 
+            <span class="nx">id</span>: <span class="kt">5</span><span class="p">,</span> 
+            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;New Category&#39;</span>
+        <span class="p">}]</span>
+<span class="p">}</span>
+
+<span class="c1">//es kann auch als Array gespeichert werden
+</span><span class="c1"></span><span class="k">this</span><span class="p">.</span><span class="nx">qqlApi</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span><span class="nx">Product</span>: <span class="kt">product</span><span class="p">}).</span><span class="nx">subscribe</span><span class="p">(()</span><span class="o">=&gt;</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;SUCCESS&#34;</span><span class="p">))</span>
+
+<span class="c1">//remove
+</span><span class="c1">//this removes all products with given ids
+</span><span class="c1"></span><span class="k">this</span><span class="p">.</span><span class="nx">qqlApi</span><span class="p">.</span><span class="nx">remove</span><span class="p">([</span><span class="mi">123</span><span class="p">,</span> <span class="mi">467</span><span class="p">,</span> <span class="mi">929</span> <span class="p">])</span>
+
+<span class="c1">//query
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Qql</span><span class="p">(</span><span class="sb">` Product {
+</span><span class="sb">    id
+</span><span class="sb">    title = *oob*
+</span><span class="sb">    price &lt; 12.40
+</span><span class="sb">    categories {
+</span><span class="sb">        $take: 5
+</span><span class="sb">        id, name, url 
+</span><span class="sb">    }
+</span><span class="sb">}}`</span><span class="p">)</span>
+
+<span class="k">this</span><span class="p">.</span><span class="nx">qqlApi</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">query</span><span class="p">).</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">result</span>: <span class="kt">QueryResult</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">//do something with result
+</span><span class="c1"></span><span class="p">})</span></code></pre></div>
+<p>Der Schwerpunkt liegt hier bei der Abfrage, also die Funktion <code>query</code>. Alle Funktionen sind asynchron und liefern Observables mit Hilfe der Bibliothek <a href="http://reactivex.io/rxjs/" target="_blank">rxjs</a> zurück. Eine Abfrage wird per Default permanent auf Änderungen beobachtet. Ändert der Händler den Produkttitel, Preis oder die Menge wird die Änderung sofort ohne Zeitverlust an die API und damit an den Client weitergegeben.</p>
+
+<h2 id="einleitung-unterstützung-von-programmiersprachen-und-datenbanksystemen">Einleitung -# Unterstützung von Programmiersprachen und Datenbanksystemen</h2>
+
+<p>Die Api besteht aus einem Client und einem Server. Langfristiges Ziel von QQL ist es, möglichst viele Programmiersprachen und Datenbanksysteme zu unterstützen. Die <strong>Referenzsimplementierung wird auf der Serverseite mit Postgresql und Node.js(Typescript) sowie Javascript(Typescript) auf der Client-Seite realisiert.</strong> Andere Kombinationen werden später hinzukommen:</p>
+
+<table>
+<thead>
+<tr>
+<th>Server-Api</th>
+<th>Datenbank</th>
+<th>Client-Api</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>Postgres</td>
+<td>Javascript</td>
+</tr>
+
+<tr>
+<td>PHP</td>
+<td>MariaDB</td>
+<td>Javascript</td>
+</tr>
+
+<tr>
+<td>Python</td>
+<td>Postgres</td>
+<td>C#</td>
+</tr>
+
+<tr>
+<td>.Net</td>
+<td>MariaDB</td>
+<td>Python</td>
+</tr>
+</tbody>
+</table>
+
+<p>Die Kombinationsmöglichkeiten sind beliebig. Zum derzeitigen Stand der Entwicklung wird sich jedoch nur auf Typescript(Server und Client) konzentriert. Steht die Referenzimplmentierung von QQL sind Entwickler anderer Programmiersprachen für eine Portierung herzlichst willkommen.</p>
+
+<h2 id="qqlquery">QqlQuery</h2>
+
+<p><strong>QQLQuery</strong> ist die Abfragesprache, d.h. die Syntax, Befehle, Konventionen und gleichzeitig Namensgeber von Quick Query Language. Man gibt in seinem Query lediglich das an, was man benötigt und kann es nach beliebigen filtern. Ein Query wird anschließend an die Api mit qqlApi.query(myQuery) übergeben.</p>
+<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="c1">//Abfrage in QQL, liefert alle Produkte mit den hier angegebenen Feldern, die im Titel &#34;oob&#34; haben. Foobar, My Foobar, usw.
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">myQuery</span> <span class="o">=</span> <span class="sb">`{ Product {
+</span><span class="sb">    id
+</span><span class="sb">    title = *oob*
+</span><span class="sb">    categories {
+</span><span class="sb">        id, name, url 
+</span><span class="sb">    }
+</span><span class="sb">}}`</span></code></pre></div>
+<h2 id="qqlsecure">QqlSecure</h2>
+
+<p>Die Datenbank wird weitgehend vollautomatisch verwaltet. Der Frontend-Entwickler kann ohne große Backendkenntnisse seine Version von Software realisieren. Ohne Sicherheitsbeschränkungen folgt daraus aber auch ein hohes Sicherheitsrisiko, da der Client design-bedingt Vollzugriff auf die Datenbank erhält. Zum Beispiel kann ein Hacker einfach die abzufragenden Felder in einem QqlQuery angeben.</p>
+<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="sb">`User {
+</span><span class="sb">    name, password
+</span><span class="sb">}
+</span><span class="sb">`</span></code></pre></div>
+<p>Oder einfach Daten abspeichern.</p>
+<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="k">this</span><span class="p">.</span><span class="nx">qqlApi</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span><span class="nx">User</span><span class="o">:</span> <span class="p">{</span><span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;notMyUser&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;not secret&#39;</span><span class="p">}})</span></code></pre></div>
+<p>Um das zu verhindern stellt QqlSecure eine Middleware für eine Access Control List bereit. Hier können Rollen, Gruppen und die dazugehörigen erlaubte Operationen initialisiert und verwaltet werden.</p>
+
+<h2 id="qqltools">QqlTools</h2>
+
+<p>Ziel von QqlTools ist es, die Entwicklung mit Qql bequem zu gestalten. Zum Beispiel weden die Abfragen als String übergeben. Strings sind jetzt nicht besonders Entwicklerfreundlich und fehlerträchtig. Plugins für die Code-Completion, Syntax-Check, usw. für die gängigen Editoren schaffen hier Abhilfe. Code-Generatoren initialisieren ein Qql-Projekt und erweitern es mit wenigen Befehlen. Snippets runden das ganze ab.</p>
+
+<h2 id="qqldocs">QqlDocs</h2>
+
+<p>QqlDocs zielt darauf ab die Dokumentation in den gängigen Weltsprachen verfügbar zu machen. Zum einen bezieht sich dies auf die frei verfügbare Dokumentation hier bei Github, als auch Videotrainings, persönliche Schulungen und Bücher. Referenzsprache ist englisch.</p>
+
+    
+        
+
+<h1 id="qqlschema">QqlSchema</h1>
+
+<p>TODO: Write QqlSchema Docs in German</p>
+
+    
+        
+
+<h1 id="qqlapi">QqlApi</h1>
+
+<p>TODO: Write QqlApi docs in German</p>
+
+    
+        
+
+<h1 id="qqlquery">QqlQuery</h1>
+
+<p>TODO: Write QqlQuery Docs in German here</p>
+
+    
+        
+
+<h1 id="qqlsecure">QqlSecure</h1>
+
+<p>TODO: Write QqlSecure Docs in German here</p>
+
+    
+        
+
+<h1 id="qqltools">QqlTools</h1>
+
+<p>TODO: Write QqlTools Docs in German here</p>
+
+    
+        
+
+<h1 id="qqldocs">QqlDocs</h1>
+
+<p>TODO: Write QqlDocs Docs in German here</p>
+
+    
+
+        </div>
+        <div class="dark-box">
+            
+            <div class="lang-selector">
+                
+                <a href="#" data-language-name="typescript">Typescript</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+</body>
+</html>
